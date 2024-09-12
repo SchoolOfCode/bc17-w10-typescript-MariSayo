@@ -1,23 +1,23 @@
 /** Some related "constants" which represent the various outcomes a round can have. */
-export const OUTCOME_WIN = "WIN";
-export const OUTCOME_DRAW = "DRAW";
-export const OUTCOME_LOSS = "LOSS";
+export const OUTCOME_WIN = "WIN" as string | null;
+export const OUTCOME_DRAW = "DRAW" as string | null;
+export const OUTCOME_LOSS = "LOSS" as string | null;
 
 /** Some related "constants" which represent the possible choices a player can make when playing. */
-export const CHOICE_ROCK = "ROCK";
-export const CHOICE_PAPER = "PAPER";
-export const CHOICE_SCISSORS = "SCISSORS";
+export const CHOICE_ROCK = "ROCK" as string | null;
+export const CHOICE_PAPER = "PAPER" as string | null;
+export const CHOICE_SCISSORS = "SCISSORS" as string | null;
 
 /** Should return a randomly selected choice. Either: "ROCK", "PAPER", "SCISSORS" */
-export function getRandomComputerMove() {
+export function getRandomComputerMove(): string | null {
   const choice = Math.trunc(Math.random() * 3);
   switch (choice) {
     case 0:
-      return CHOICE_ROCK;
+      return CHOICE_ROCK as string;
     case 1:
-      return CHOICE_PAPER;
+      return CHOICE_PAPER as string;
     case 2:
-      return CHOICE_SCISSORS;
+      return CHOICE_SCISSORS as string;
     default:
       throw new Error(`Unsupported choice: ${choice}`);
   }
@@ -26,31 +26,31 @@ export function getRandomComputerMove() {
 /**
  * Should return either: "ROCK", "PAPER", "SCISSORS" (or null if the user cancelled)
  */
-export function getPlayerMove() {
+export function getPlayerMove(): string | null {
   while (true) {
-    const rawInput = prompt("Enter a move: rock/paper/scissors");
+    const rawInput = prompt("Enter a move: rock/paper/scissors") ;
     const userHasCancelled = null === rawInput;
 
     if (userHasCancelled) {
       return null;
     }
 
-    switch (rawInput.toLowerCase()) {
+    switch (rawInput?.toLowerCase()) {
       case "r":
       case "rock":
-        return CHOICE_ROCK;
+        return CHOICE_ROCK as string | null;
       case "p":
       case "paper":
-        return CHOICE_PAPER;
+        return CHOICE_PAPER as string | null;
       case "s":
       case "scissors":
-        return CHOICE_SCISSORS;
+        return CHOICE_SCISSORS as string | null;
     }
   }
 }
 
 /** Should return an outcome. Either "WIN", "LOSS" or "DRAW" */
-export function getOutcomeForRound(playerChoice, computerChoice) {
+export function getOutcomeForRound(playerChoice: string | null, computerChoice: string | null) {
   const playerHasDrawn = playerChoice === computerChoice;
 
   if (playerHasDrawn) {
@@ -70,16 +70,16 @@ export function getOutcomeForRound(playerChoice, computerChoice) {
 }
 
 /** Should return an object containing information about the played round. */
-export function playOneRound() {
-  const playerMove = getPlayerMove();
+export function playOneRound(): { playerMove: string; computerMove: string | null; outcome: string | null } | null {
+  const playerMove = getPlayerMove() as string | null;
   if (null === playerMove) {
     return null;
   }
 
-  const computerMove = getRandomComputerMove();
+  const computerMove = getRandomComputerMove() as string | null;
   const outcome = getOutcomeForRound(playerMove, computerMove);
 
-  return {
+return {
     playerMove,
     computerMove,
     outcome,
@@ -87,7 +87,7 @@ export function playOneRound() {
 }
 
 /** Should return undefined/void if the loop were to stop. */
-export function playGame() {
+export function playGame(): void {
   /** Some basic game state, where things like scores are tracked. */
   let model = {
     playerScore: 0,
@@ -106,7 +106,7 @@ export function playGame() {
   }
 }
 
-export function updateModel(model, dataForRound) {
+export function updateModel(model: any , dataForRound: any) {
   switch (dataForRound.outcome) {
     case OUTCOME_WIN:
       return { ...model, playerScore: model.playerScore + 1 };
@@ -117,7 +117,7 @@ export function updateModel(model, dataForRound) {
   }
 }
 
-export function showProgressInConsole(dataForRound, model) {
+export function showProgressInConsole(dataForRound: any, model: any) {
   console.table([
     {
       "Your choice": dataForRound.playerMove,
